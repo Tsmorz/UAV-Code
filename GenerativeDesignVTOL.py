@@ -24,6 +24,7 @@ hover_time = 5                  # minutes
 # NACA 25112
 Cl = 1.1    # Lift coefficient - cruise
 Cl = Cl/0.95
+Cl_max = 1.55
 Cd0 = 0.02  # Drag coefficient - cruise
 Cm = 0.03   # Moment coefficient - maximum
 tc = 0.14   # thickness ratio (thickness/chord)
@@ -136,6 +137,7 @@ print("Span to Prop Ratio:\t",  round(wing_span[ind]/prop_diameter[ind], 2))
 print()
 print("Air density:\t\t",       round(rho, 3), "kg/m3")
 print("Cruise Velocity:\t",     round(vel[ind], 2), "m/s")
+print("Stall Velocity:\t\t",    round(np.sqrt(2*mass*g/(rho*wing_area[ind]*Cl_max)),2),"m/s")
 print()
 print("Battery size:\t\t",      round(batt_whr[ind]/1000, 3), "kwhr")
 
