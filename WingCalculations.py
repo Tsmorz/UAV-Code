@@ -10,10 +10,12 @@ from Structures import TorsionStrain, BendingStrain
 # VTOL drone design optimization
 
 # Reduce wall thickness until strain limit
+
+
 def WingStrain(w, F, M, diameter, thickness, L, E, G):
     I = MomentOfArea(diameter, thickness)
     J = PolarMoment(diameter, thickness)
-    
+
     # Lifting by wingtips
     moment = PointLoad(F, L, E, I)
     # FAA Limit
@@ -31,6 +33,8 @@ def WingStrain(w, F, M, diameter, thickness, L, E, G):
 
 # Minimize wing mass given:
 # span, velocity, a/c mass, Cl, thickness ratio, air density
+
+
 def WingMass(ac_mass, b, q, Cl, Cm, tc):
     safety_factor = 1.5     # aerospace standard
     load_factor = 4.4       # FAA guideline
@@ -51,11 +55,11 @@ def WingMass(ac_mass, b, q, Cl, Cm, tc):
     # Carbon Fiber
     E = 228*10**9           # Modulus of Elasticity
     G = 10*10**9            # Shear Modulus
-    
+
     # Carbon Tube Geo
     print_thickness = 0.001                 # 3D printed airfoil thickness
     diameter = tc*c - 2*print_thickness     # carbon tube diameter
-    diameter = np.floor(diameter*1000)/1000 # round down to nearest mm
+    diameter = np.floor(diameter*1000)/1000  # round down to nearest mm
     thickness = 0.0025                      # intial wall thickness
 
     # Reduce strut thickness to minimize weight
@@ -63,10 +67,10 @@ def WingMass(ac_mass, b, q, Cl, Cm, tc):
     while True:
 
         # hard to find struts thinner than 5 mm
-        if diameter <= 0.005: 
+        if diameter <= 0.005:
             max_strain = float('NaN')
             break
-    
+
         temp = WingStrain(w, F, M, diameter, thickness, L, E, G)
 
         # initial test is beyond strain limit
@@ -79,7 +83,7 @@ def WingMass(ac_mass, b, q, Cl, Cm, tc):
         # wall thickess less than or equal to 1.0 mm
         elif thickness <= 0.001:
             break
-        elif temp>100.0 and max_strain <= 100:
+        elif temp > 100.0 and max_strain <= 100:
             thickness = thickness+0.0005
             break
         else:
@@ -91,11 +95,11 @@ def WingMass(ac_mass, b, q, Cl, Cm, tc):
         AR = float('NaN')
         S = float('NaN')
         max_strain = float('NaN')
-        
+
     # 3D printed airfoil calculations
     volume = b*np.pi/4*(diameter**2 - (diameter-2*thickness)**2)
     density = 1750          # kg/m^3
     mass = density*volume
     mass = mass + S*2.320   # mass from 3D printed airfoil
-   
+
     return mass, AR, S, max_strain, thickness
