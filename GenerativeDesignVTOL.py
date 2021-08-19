@@ -22,11 +22,11 @@ hover_time = 5                  # minutes
 
 # Airfoils Parameters @ cruise
 # NACA 25112
-Cl = 0.9    # Lift coefficient - cruise
+Cl = 1.1    # Lift coefficient - cruise
 Cl = Cl/0.95
 Cd0 = 0.02  # Drag coefficient - cruise
 Cm = 0.03   # Moment coefficient - maximum
-tc = 0.12   # thickness ratio (thickness/chord)
+tc = 0.14   # thickness ratio (thickness/chord)
 
 ##########################################################################
 ### --- DON'T EDIT BELOW THIS LINE --- ###################################
