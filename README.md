@@ -7,4 +7,4 @@ AeroDrag.py - skin friction, form, and induced drag calculations\
 Hover.py - power and energy requirements from hovering flight\
 Structures.py - Euler beam theory and associated equations\
 WingCalculations.py - iterative process to reduce wing mass\
-UAVdesign.py - miscellaneous calculations and tradeoffs\
+UAVdesign.py - miscellaneous calculations and tradeoffs
