@@ -127,29 +127,29 @@ kwhr = batt_whr[ind]/1000
 ##########################################################################
 ### --- Write A/C details to terminal --- ################################
 ##########################################################################
+data = [["Flight radius:",round(max_distance/2, 2), "km"],
+["Hover time:", round(hover_time[ind],1), "min"],
+["Total Mass:", round(mass, 3), "kg"],
+["Total Width:", round(overall_span, 2), "m"],
+["Aspect Ratio:", round(AR, 1), ""],
+["Wing Area:", round(S, 3), "m2"],
+["Wing Span:", round(b, 3), "m"],
+["Chord:", round(c, 3), "m"],
+["Spar:", 1000*spar, "mm"],
+["Thickness:", thickness*1000, 'mm'],
+["Prop Diameter:", round(prop_diam, 3), "m"],
+["Span to Prop Ratio:", round(b/prop_diam, 2), ""],
+["Air density:", round(rho, 3), "kg/m3"],
+["Cruise Velocity:", round(cruise, 2), "m/s"],
+["Stall Velocity:", round(1.2*stall, 2),"m/s"],
+["Battery size:", round(kwhr, 3), "kwhr"]]
 
+dash = '-' * 40
 print("Tiltrotor Details:")
-print("-----------------------------------")
-print("Flight radius:\t\t",     round(max_distance/2, 2), "km")
-print("Hover time:\t\t\t\t",      round(hover_time[ind],1), "min")
-print("Total Mass:\t\t\t\t",        round(mass, 3), "kg")
-print("Total Width:\t\t\t",       round(overall_span, 2), "m")
-print()
-print("Aspect Ratio:\t\t\t",      round(AR, 1))
-print("Wing Area:\t\t\t",         round(S, 3), "m2")
-print("Wing Span:\t\t\t",         round(b, 3), "m")
-print("Chord:\t\t\t\t\t",           round(c, 3), "m")
-print("Spar:\t\t\t\t\t\t",            1000*spar, "mm")
-print("Thickness:\t\t",    thickness*1000, 'mm')
-print()
-print("Prop Diameter:\t\t",     round(prop_diam, 3), "m")
-print("Span to Prop Ratio:\t",  round(b/prop_diam, 2))
-print()
-print("Air density:\t\t",       round(rho, 3), "kg/m3")
-print("Cruise Velocity:\t",     round(cruise, 2), "m/s")
-print("Stall Velocity:\t\t",    round(1.2*stall, 2),"m/s")
-print()
-print("Battery size:\t\t",      round(kwhr, 3), "kwhr")
+print(dash)
+
+for i in range(len(data)):
+    print('{:<23s}{:^6.2f}{:<10s}'.format(data[i][0],data[i][1],data[i][2]))
 
 ##########################################################################
 ### --- Plot Data --- ####################################################
@@ -175,7 +175,7 @@ plt.clabel(CS, CS.levels, inline=True, fontsize=10)
 plt.plot(wing_span[max_hover_ind], vel[max_hover_ind], 'ro')
 CS = plt.contour(wing_span, vel, prop_diameter/b, 5)
 plt.clabel(CS, CS.levels, inline=True, fontsize=10)
-plt.title('Hover Time (min)')
+plt.title('Max Hover Time (min)')
 plt.xlabel('Wingspan (m)')
 plt.ylabel('Vel (m/s)')
 
