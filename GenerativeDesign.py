@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from mpl_toolkits.mplot3d import axes3d
+from ReadInputs import ReadInputs
 from WingCalculations import WingMass
 from AeroDrag import TotalDrag
 from Hover import PowerHover, EnergyHover, EnergyTakeOff
@@ -10,24 +11,25 @@ from Hover import PowerHover, EnergyHover, EnergyTakeOff
 # August 2021
 # VTOL drone design optimization
 
+__file__ = 'inputs.csv'
+inputs = ReadInputs(__file__)
 # Aircraft total mass
-mass = 4/0.25
+mass = inputs[0]
 
 # Wing span and velocities to search over
-overall_span = 1.85             # tip to tip of propellors
+overall_span = inputs[1]             # tip to tip of propellors
 useable_span = 0.9*overall_span  # a/c body is 10% of span
 vel = np.arange(15, 45.1, 0.25)  # meters/sec
 updown = 1                      # number of times UAV can take off and land
 hover_time = 5                  # minutes
 
-# Airfoils Parameters @ cruise
-# NACA 25112
-Cl = 1.1    # Lift coefficient - cruise
+# Airfoils Parameters
+Cl_max = inputs[2]
+Cl = inputs[3]    # Lift coefficient - cruise
 Cl = Cl/0.95
-Cl_max = 1.55
-Cd0 = 0.02  # Drag coefficient - cruise
-Cm = 0.03   # Moment coefficient - maximum
-tc = 0.14   # thickness ratio (thickness/chord)
+Cd0 = inputs[4]  # Drag coefficient - cruise
+Cm = inputs[5]   # Moment coefficient - maximum
+tc = inputs[6]   # thickness ratio (thickness/chord)
 
 ##########################################################################
 ### --- DON'T EDIT BELOW THIS LINE --- ###################################
