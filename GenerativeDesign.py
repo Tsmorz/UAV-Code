@@ -18,7 +18,7 @@ if mass > 24.95:                    # FAA limit is 55lbs
     mass = 24.95
 overall_span = inputs[1]            # tip to tip of propellors
 useable_span = 0.9*overall_span     # a/c body is 10% of span
-vel = np.arange(15, 45.1, 0.25)     # meters/s          
+vel = np.arange(15, 45.1, 0.25)     # meters/s
 # wing_span = np.arange(0.5*useable_span, 2*useable_span, 0.01) # meters
 wing_span = np.arange(0.5*useable_span, 0.9*useable_span, 0.01)  # meters
 num_props = 2
@@ -84,7 +84,8 @@ for i in range(r):
                           [j], Cl, Cd0, vel[i][j], rho)
         power_drag[i][j] = vel[i][j]*total
         power_hover[i][j] = PowerHover(mass, prop_diameter[i][j], num_props)
-        hover_whr[i][j] = EnergyTakeOff(power_hover[i][j], wing_area[i][j], rho)
+        hover_whr[i][j] = EnergyTakeOff(
+            power_hover[i][j], wing_area[i][j], rho)
 
 # Battery parameters
 batt_mass = 0.35*mass-wing_mass
@@ -93,10 +94,10 @@ batt_cost = batt_whr/1.56
 batt_whr = batt_whr - hover_whr
 
 # Max hover time
-hover_time = batt_whr/power_hover*60 # hover time in minutes
+hover_time = batt_whr/power_hover*60  # hover time in minutes
 
 # Flight Range
-duration = batt_whr/power_drag*60*60 # flight time in seconds
+duration = batt_whr/power_drag*60*60  # flight time in seconds
 distance = vel/1000 * duration
 idx = np.isnan(wing_strain)
 distance[idx] = float('NaN')
@@ -112,7 +113,8 @@ max_km_per_dollar = np.nanmax(km_per_dollar)
 
 # Final Outputs
 ind = np.unravel_index(np.nanargmax(distance, axis=None), distance.shape)
-max_hover_ind = np.unravel_index(np.nanargmax(hover_time, axis=None), distance.shape)
+max_hover_ind = np.unravel_index(
+    np.nanargmax(hover_time, axis=None), distance.shape)
 AR = wing_AR[ind]
 S = wing_area[ind]
 b = wing_span[ind]
@@ -127,29 +129,29 @@ kwhr = batt_whr[ind]/1000
 ##########################################################################
 ### --- Write A/C details to terminal --- ################################
 ##########################################################################
-data = [["Flight radius:",round(max_distance/2, 2), "km"],
-["Hover time:", round(hover_time[ind],1), "min"],
-["Total Mass:", round(mass, 3), "kg"],
-["Total Width:", round(overall_span, 2), "m"],
-["Aspect Ratio:", round(AR, 1), ""],
-["Wing Area:", round(S, 3), "m2"],
-["Wing Span:", round(b, 3), "m"],
-["Chord:", round(c, 3), "m"],
-["Spar:", 1000*spar, "mm"],
-["Thickness:", thickness*1000, 'mm'],
-["Prop Diameter:", round(prop_diam, 3), "m"],
-["Span to Prop Ratio:", round(b/prop_diam, 2), ""],
-["Air density:", round(rho, 3), "kg/m3"],
-["Cruise Velocity:", round(cruise, 2), "m/s"],
-["Stall Velocity:", round(1.2*stall, 2),"m/s"],
-["Battery size:", round(kwhr, 3), "kwhr"]]
+data = [["Flight radius:", round(max_distance/2, 2), "km"],
+        ["Hover time:", round(hover_time[ind], 1), "min"],
+        ["Total Mass:", round(mass, 3), "kg"],
+        ["Total Width:", round(overall_span, 2), "m"],
+        ["Aspect Ratio:", round(AR, 1), ""],
+        ["Wing Area:", round(S, 3), "m2"],
+        ["Wing Span:", round(b, 3), "m"],
+        ["Chord:", round(c, 3), "m"],
+        ["Spar:", 1000*spar, "mm"],
+        ["Thickness:", thickness*1000, 'mm'],
+        ["Prop Diameter:", round(prop_diam, 3), "m"],
+        ["Span to Prop Ratio:", round(b/prop_diam, 2), ""],
+        ["Air density:", round(rho, 3), "kg/m3"],
+        ["Cruise Velocity:", round(cruise, 2), "m/s"],
+        ["Stall Velocity:", round(1.2*stall, 2), "m/s"],
+        ["Battery size:", round(kwhr, 3), "kwhr"]]
 
 dash = '-' * 40
 print("Tiltrotor Details:")
 print(dash)
 
 for i in range(len(data)):
-    print('{:<23s}{:^6.2f}{:<10s}'.format(data[i][0],data[i][1],data[i][2]))
+    print('{:<23s}{:^6.2f}{:<10s}'.format(data[i][0], data[i][1], data[i][2]))
 
 ##########################################################################
 ### --- Plot Data --- ####################################################
@@ -169,7 +171,8 @@ plt.ylabel('Vel (m/s)')
 
 # Hover Time
 plt.subplot(122)
-levels = hover_time[max_hover_ind]*np.array([0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99, 1.05])
+levels = hover_time[max_hover_ind] * \
+    np.array([0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99, 1.05])
 CS = plt.contour(wing_span, vel, hover_time, levels)
 plt.clabel(CS, CS.levels, inline=True, fontsize=10)
 plt.plot(wing_span[max_hover_ind], vel[max_hover_ind], 'ro')
