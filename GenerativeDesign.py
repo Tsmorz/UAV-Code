@@ -11,16 +11,18 @@ from Hover import PowerHover, EnergyTakeOff
 # August 2021
 # VTOL drone design optimization
 
-__file__ = 'inputs.csv'
+__file__ = 'inputs-prop.csv'
 inputs = ReadInputs(__file__)       # Read inputs from csv file
 mass = inputs[0]                    # Aircraft total mass
 if mass > 24.95:                    # FAA limit is 55lbs
     mass = 24.95
-overall_span = inputs[1]            # tip to tip of propellors
-useable_span = 0.9*overall_span     # a/c body is 10% of span
-vel = np.arange(15, 45.1, 0.25)     # meters/s          
-# wing_span = np.arange(0.5*useable_span, 2*useable_span, 0.01) # meters
-wing_span = np.arange(0.5*useable_span, 0.9*useable_span, 0.01)  # meters
+
+body_diameter = 0.125               # meters
+prop_diameter = inputs[1]           # propellor diameter
+wing_span = np.arange(1*prop_diameter, 8*prop_diameter, 0.05)  # meters
+overall_span = wing_span + body_diameter + prop_diameter
+
+vel = np.arange(15, 45.1, 0.5)     # meters/s
 num_props = 2
 
 # Airfoils Parameters
@@ -69,7 +71,6 @@ wing_t = wing_t.T
 
 wing_span, q = np.meshgrid(wing_span, q)
 vel = np.sqrt(2*q/rho)
-prop_diameter = useable_span-wing_span
 
 # Calculate aero drag parameters
 print("Calculating drag...")
@@ -83,8 +84,11 @@ for i in range(r):
         total = TotalDrag(wing_area[i][j], wing_span[i]
                           [j], Cl, Cd0, vel[i][j], rho)
         power_drag[i][j] = vel[i][j]*total
-        power_hover[i][j] = PowerHover(mass, prop_diameter[i][j], num_props)
+        power_hover[i][j] = PowerHover(mass, prop_diameter, num_props)
         hover_whr[i][j] = EnergyTakeOff(power_hover[i][j], wing_area[i][j], rho)
+
+# Wing Loading
+wing_loading = mass/wing_area
 
 # Battery parameters
 batt_mass = 0.35*mass-wing_mass
@@ -112,37 +116,39 @@ max_km_per_dollar = np.nanmax(km_per_dollar)
 
 # Final Outputs
 ind = np.unravel_index(np.nanargmax(distance, axis=None), distance.shape)
+ind = np.where(distance==max_distance)
+
 max_hover_ind = np.unravel_index(np.nanargmax(hover_time, axis=None), distance.shape)
-AR = wing_AR[ind]
-S = wing_area[ind]
-b = wing_span[ind]
+AR = float(wing_AR[ind])
+S = float(wing_area[ind])
+b = float(wing_span[ind])
 c = S/b
-prop_diam = prop_diameter[ind]
+
 spar = np.floor(1000*(c*tc - 2*0.001))/1000
-thickness = wing_t[ind]
-cruise = vel[ind]
-stall = np.sqrt(2*mass*g/(rho*S*Cl_max))
-kwhr = batt_whr[ind]/1000
+thickness = float(wing_t[ind])
+cruise = float(vel[ind])
+stall = float(np.sqrt(2*mass*g/(rho*S*Cl_max)))
+kwhr = float(batt_whr[ind]/1000)
 
 ##########################################################################
 ### --- Write A/C details to terminal --- ################################
 ##########################################################################
-data = [["Flight radius:",round(max_distance/2, 2), "km"],
-["Hover time:", round(hover_time[ind],1), "min"],
-["Total Mass:", round(mass, 3), "kg"],
-["Total Width:", round(overall_span, 2), "m"],
-["Aspect Ratio:", round(AR, 1), ""],
-["Wing Area:", round(S, 3), "m2"],
-["Wing Span:", round(b, 3), "m"],
-["Chord:", round(c, 3), "m"],
-["Spar:", 1000*spar, "mm"],
-["Thickness:", thickness*1000, 'mm'],
-["Prop Diameter:", round(prop_diam, 3), "m"],
-["Span to Prop Ratio:", round(b/prop_diam, 2), ""],
-["Air density:", round(rho, 3), "kg/m3"],
-["Cruise Velocity:", round(cruise, 2), "m/s"],
-["Stall Velocity:", round(1.2*stall, 2),"m/s"],
-["Battery size:", round(kwhr, 3), "kwhr"]]
+data = [["Flight radius:",  np.round(max_distance/2, 2), "km"],
+["Hover time:",             np.round(float(hover_time[ind]),1), "min"],
+["Total Mass:",             np.round(mass, 3), "kg"],
+["Total Width:",            np.round(float(overall_span[ind[1]]), 2), "m"],
+["Aspect Ratio:",           np.round(AR, 1), ""],
+["Wing Area:",              np.round(S, 3), "m2"],
+["Wing Span:",              np.round(b, 3), "m"],
+["Chord:",                  np.round(c, 3), "m"],
+["Spar:",                   1000*spar, "mm"],
+["Thickness:",              thickness*1000, 'mm'],
+["Prop Diameter:",          np.round(prop_diameter, 3), "m"],
+["Span to Prop Ratio:",     np.round(b/prop_diameter, 2), ""],
+["Air density:",            np.round(rho, 3), "kg/m3"],
+["Cruise Velocity:",        np.round(cruise, 2), "m/s"],
+["Stall Velocity:",         np.round(1.2*stall, 2),"m/s"],
+["Battery size:",           np.round(kwhr, 3), "kwhr"]]
 
 dash = '-' * 40
 print("Tiltrotor Details:")
@@ -156,25 +162,30 @@ for i in range(len(data)):
 ##########################################################################
 
 # Flight Radius
-plt.subplot(121)
+plt.subplot(131)
 levels = max_distance/2*np.array([0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99, 1.05])
 CS = plt.contour(wing_span, vel, distance/2, levels)
 plt.clabel(CS, CS.levels, inline=True, fontsize=10)
 plt.plot(wing_span[ind], vel[ind], 'ro')
-CS = plt.contour(wing_span, vel, prop_diameter, 5)
-plt.clabel(CS, CS.levels, inline=True, fontsize=10)
 plt.title('Flight Radius (km)')
 plt.xlabel('Wingspan (m)')
 plt.ylabel('Vel (m/s)')
 
 # Hover Time
-plt.subplot(122)
+plt.subplot(132)
 levels = hover_time[max_hover_ind]*np.array([0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99, 1.05])
 CS = plt.contour(wing_span, vel, hover_time, levels)
 plt.clabel(CS, CS.levels, inline=True, fontsize=10)
 plt.plot(wing_span[max_hover_ind], vel[max_hover_ind], 'ro')
-CS = plt.contour(wing_span, vel, prop_diameter/b, 5)
+plt.title('Max Hover Time (min)')
+plt.xlabel('Wingspan (m)')
+plt.ylabel('Vel (m/s)')
+
+# Wing Loading
+plt.subplot(133)
+CS = plt.contour(wing_span, vel, wing_loading)
 plt.clabel(CS, CS.levels, inline=True, fontsize=10)
+plt.plot(wing_span[max_hover_ind], vel[max_hover_ind], 'ro')
 plt.title('Max Hover Time (min)')
 plt.xlabel('Wingspan (m)')
 plt.ylabel('Vel (m/s)')

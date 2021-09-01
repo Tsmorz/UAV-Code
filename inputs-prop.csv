@@ -1,0 +1,8 @@
+Tilt Rotor - user inputs,
+Total Mass in kg,16
+Prop Diameter in m,0.508
+Coefficient of Lift - max,1.2
+Coefficient of Lift - cruise,0.9
+Coefficient of Drag - cruise,0.02
+Coefficient of Pitching Moment,0.03
+Thickness-Chord ratio,0.14
