@@ -1,6 +1,6 @@
 # UAV-Code
 
-This program helps streamline the initial design phase when creating tiltrotor aircraft.
+This program helps streamline the initial design phase when creating tiltrotor aircraft. This type of a/c helps fill the need for efficient cargo carring drones that can operate without a runway and/or landing strip. \
 
 Edit this file to your chosen airfoil and a/c dimensions:
 ```
