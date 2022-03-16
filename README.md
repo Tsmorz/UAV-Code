@@ -11,32 +11,33 @@ Specific data to the aircraft like mass, wingspan, coefficient of lift, etc
 ```
 ReadInputs.py
 ```
-main fuction that puts everything together
+
+Main fuction that puts everything together
 ```
-GenerativeDesign.py
+$ python GenerativeDesign.py
 ```
 
-skin friction, form, and induced drag calculations
+Skin friction, form, and induced drag calculations
 ```
-AeroDrag.py
+$ python AeroDrag.py
 ```
 
-power and energy requirements from hovering flight
+Power and energy requirements from hovering flight
 ```
-Hover.py
+$ python Hover.py
 ```
 
 Euler beam theory and associated equations
 ```
-Structures.py
+$ python Structures.py
 ```
 
-iterative process to reduce wing mass
+Iterative process to reduce wing mass
 ```
-WingCalculations.py
+$ python WingCalculations.py
 ```
 
 miscellaneous calculations and tradeoffs
 ```
-UAVdesign.py
+$ python UAVdesign.py
 ```
