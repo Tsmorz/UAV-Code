@@ -1,7 +1,9 @@
 # UAV-Code
 
-This program was created to help streamline the *initial design phase* when creating a tiltrotor aircraft. This type of a/c helps fill the need for efficient cargo carring drones that can operate without a runway and/or landing strip. This project was completed to help AerospaceNU, the aerospace club of Northeastern University during the Fall 2021 semester. \
-<img src="https://user-images.githubusercontent.com/83112082/158711492-ad390191-10b6-4bf6-add6-52dd5bcf30c0.jpg" width="60%" height="60%">
+This program was created to help streamline the *initial design phase* when creating a tiltrotor aircraft. This type of a/c helps fill the need for efficient cargo carring drones that can operate without a runway and/or landing strip. This project was completed to help [AerospaceNU](https://www.aerospacenu.com/), the aerospace club of Northeastern University during the Fall 2021 semester. The image below represents an example of what a prototype could look like given the outputs.
+\
+\
+<img src="https://user-images.githubusercontent.com/83112082/158711492-ad390191-10b6-4bf6-add6-52dd5bcf30c0.jpg" width="70%" height="70%">
 
 ## About the program
 I tried to be very complete in creating a useful model to streamline the initial design phase. The model is not without assumptions but (in my opinion) represents a helpful tool in novel a/c design.
