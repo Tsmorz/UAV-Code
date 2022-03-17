@@ -21,6 +21,11 @@ $ python GenerativeDesign.py
   - UAVdesign.py - miscellaneous calculations and tradeoffs:
 
 ## Expected output
+<p float="left">
+  <img src="https://user-images.githubusercontent.com/83112082/158713521-fae7395c-5113-4f1f-8e25-9edbd344cf81.png" width="60%" height="60%" />
+  <img src="https://user-images.githubusercontent.com/83112082/158713522-7398d7cf-d6ba-4bc4-a7e9-92efdf357db3.png" width="25%" height="25%" />
+</p>
+
 
 ## Cited Works
 Numerous studies were used to find relevant equations to create a realistic model. Please use the following thinks to access the original papers. Some files may have a paywall that limit access. \
