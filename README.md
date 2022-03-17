@@ -2,6 +2,7 @@
 
 This program helps streamline the initial design phase when creating tiltrotor aircraft. This type of a/c helps fill the need for efficient cargo carring drones that can operate without a runway and/or landing strip.
 
+## Using the program
 Edit this file to your chosen airfoil and a/c dimensions:
 ```
 inputs.csv
@@ -17,3 +18,7 @@ $ python GenerativeDesign.py
   - Structures.py - Euler beam theory and associated equations
   - WingCalculations.py - Iterative process to reduce wing mass:
   - UAVdesign.py - miscellaneous calculations and tradeoffs:
+
+## Expected output
+
+## Cited Works
