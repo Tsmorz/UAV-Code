@@ -22,3 +22,4 @@ $ python GenerativeDesign.py
 ## Expected output
 
 ## Cited Works
+Numerous studies were used to find relevant equations to create a realistic model. Please use the following thinks to access the original papers. Some files may have a paywall that limit access.
