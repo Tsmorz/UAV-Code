@@ -21,9 +21,10 @@ $ python GenerativeDesign.py
   - UAVdesign.py - miscellaneous calculations and tradeoffs:
 
 ## Expected output
+The plots below give an example of the expected output when you run ```$ python GenerativeDesign.py``` in your terminal. The red dot denotes the ideal starting design to maximize flight duration given the current constraints. Please adjust the inputs.csv file to tailor the program to your needs. The far right image is the expected output on your terminal. Use these dimensions to design the a/c model in your CAD program of choice.
 <p float="left">
-  <img src="https://user-images.githubusercontent.com/83112082/158713521-fae7395c-5113-4f1f-8e25-9edbd344cf81.png" width="60%" height="60%" />
-  <img src="https://user-images.githubusercontent.com/83112082/158713522-7398d7cf-d6ba-4bc4-a7e9-92efdf357db3.png" width="25%" height="25%" />
+  <img src="https://user-images.githubusercontent.com/83112082/158713521-fae7395c-5113-4f1f-8e25-9edbd344cf81.png" width="70%" height="70%" />
+  <img src="https://user-images.githubusercontent.com/83112082/158713522-7398d7cf-d6ba-4bc4-a7e9-92efdf357db3.png" width="28%" height="28%" />
 </p>
 
 
