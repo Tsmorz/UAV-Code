@@ -1,7 +1,7 @@
 # UAV-Code
 
 This program helps streamline the initial design phase when creating tiltrotor aircraft. This type of a/c helps fill the need for efficient cargo carring drones that can operate without a runway and/or landing strip.
-<img src="https://user-images.githubusercontent.com/83112082/158711492-ad390191-10b6-4bf6-add6-52dd5bcf30c0.jpg" width="80%" height="80%">
+<img src="https://user-images.githubusercontent.com/83112082/158711492-ad390191-10b6-4bf6-add6-52dd5bcf30c0.jpg" width="60%" height="60%">
 
 ## Using the program
 Edit this file to your chosen airfoil and a/c dimensions:
