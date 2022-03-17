@@ -30,9 +30,9 @@ The plots below give an example of the expected output when you run ```$ python 
 
 ## Cited Works
 Numerous studies were used to find relevant equations to create a realistic model. Please use the following thinks to access the original papers. Some files may have a paywall that limit access. \
-https://www.researchgate.net/figure/XV-15-tiltrotor-aircraft-layout-Ref-9_fig3_23847162 \
-https://www.sciencedirect.com/science/article/pii/S2352146518300383 \
-https://books.google.nl/books?id=-PnV2JuLZi4C&pg=PA42&lpg=PA42&dq=power+required+to+hover+watts+per+kg&source=bl&ots=iS07eZFRKr&sig=ACfU3U2BjfLfAVHgaFQWmAX8z5_0TVsmUQ&hl=en&sa=X&ved=2ahUKEwjDx7Pg9ZvyAhWho3EKHU_EAwoQ6AF6BAgeEAM#v=onepage&q=power%20required%20to%20hover%20watts%20per%20kg&f=false \
-http://www.epi-eng.com/propeller_technology/selecting_a_propeller.htm \
-http://airfoiltools.com/airfoil/details?airfoil=sd7062-il \
-https://www.risingup.com/fars/info/part23-337-FAR.shtml 
+  - https://www.researchgate.net/figure/XV-15-tiltrotor-aircraft-layout-Ref-9_fig3_23847162 \
+  - https://www.sciencedirect.com/science/article/pii/S2352146518300383 \
+  - https://books.google.nl/books?id=-PnV2JuLZi4C&pg=PA42&lpg=PA42&dq=power+required+to+hover+watts+per+kg&source=bl&ots=iS07eZFRKr&sig=ACfU3U2BjfLfAVHgaFQWmAX8z5_0TVsmUQ&hl=en&sa=X&ved=2ahUKEwjDx7Pg9ZvyAhWho3EKHU_EAwoQ6AF6BAgeEAM#v=onepage&q=power%20required%20to%20hover%20watts%20per%20kg&f=false \
+  - http://www.epi-eng.com/propeller_technology/selecting_a_propeller.htm \
+  - http://airfoiltools.com/airfoil/details?airfoil=sd7062-il \
+  - https://www.risingup.com/fars/info/part23-337-FAR.shtml 
