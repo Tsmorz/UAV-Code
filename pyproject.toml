@@ -1,0 +1,91 @@
+[tool.poetry]
+name = "uav-design"
+version = "0.1.0"
+description = "A UAV design script"
+authors = ["Tsmorz <tonysmoragiewicz@gmail.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11, <3.13"
+numpy = "^2.2.3"
+loguru = "^0.7.3"
+matplotlib = "^3.10.7"
+scipy = "^1.16.3"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.6.9"
+mypy = "^1.11"
+pytest = "^8.3"
+pytest-cov = "^6.0"
+pre-commit = "^4.1.0"
+poetry-core = "^2.1.2"
+coveralls = "^4.0.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+# Set the maximum allowed line length (PEP 8 default is 88)
+line-length = 88
+
+# Enable specific linting rules
+lint.select = [
+    "E",      # pycodestyle (style errors)
+    "F",      # Pyflakes (logical errors)
+    "W",      # Warnings
+    "C90",    # mccabe (complexity checks)
+    "I",      # isort (import sorting)
+    "N",      # pep8-naming (naming conventions)
+    "D",      # pydocstyle (docstring conventions)
+    "UP",     # pyupgrade (Python syntax modernization)
+    "B",      # flake8-bugbear (common pitfalls and performance issues)
+    "S",      # flake8-bandit (security issues)
+    "YTT",    # flake8-2020 (Python 2 compatibility issues)
+    "Q",      # flake8-quotes (quote consistency)
+    "PL",     # pylint (general best practices)
+    "RUF",    # Ruff-specific rules
+    "T20",
+    "F841",   # unused variable
+    "ERA001"  # commented out code
+]
+
+# Exclude some noisy or unnecessary rules
+lint.ignore = [
+    "D203",     # 1 blank line before a class (conflicts with D211)
+    "D213",     # Multi-line docstring should start on the first line (conflicts with D212)
+    "E501",     # Line length (handled by autoformatter instead)
+    "N803",     #  Argument name should be lowercase
+    "N806",     # Variable in function should be lowercase
+    "D415",     # End first line with a period, question mark, or exclamation point
+    "S101",     # Use of `assert` detected
+    "E203",     # whitespace before ':'
+    "E731",     # Do not assign a `lambda` expression, use a `def`
+    "D107",     # Missing docstring in `__init__`
+    "PLR2004",  # Magic value used in comparison
+    "S607",     # Starting a process with a partial executable path
+    "S605",     # Starting a process with a shell
+    "S603",     # `subprocess` call: check for execution of untrusted input
+]
+
+# Automatically fix issues where possible
+fix = true
+
+# Sort imports automatically
+[tool.ruff.lint.isort]
+known-first-party = ["uav-design"]  # Replace it with your project name
+combine-as-imports = true
+
+# Enforce docstring styles
+[tool.lint.pydocstyle]
+convention = "google"
+
+# Autoformatting options
+[tool.ruff.format]
+quote-style = "double"  # Ensure consistent use of double quotes
+indent-style = "space"  # Use spaces instead of tabs
+line-ending = "lf"      # Use LF for line endings (Unix standard)
+
+[tool.poetry.urls]
+homepage = "https://github.com/Tsmorz/UAV-Code"
