@@ -2,10 +2,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from mpl_toolkits.mplot3d import axes3d
-from ReadInputs import ReadInputs
-from WingCalculations import WingMass
-from AeroDrag import TotalDrag
-from Hover import PowerHover, EnergyTakeOff
+from read_inputs import ReadInputs
+from wing_calculations import wing_mass
+from aero_drag import TotalDrag
+from hover import PowerHover, EnergyTakeOff
 
 # Tony Smoragiewicz
 # August 2021
@@ -43,7 +43,7 @@ rho = p/(R*T)                       # air density
 q = 1/2*rho*vel**2                  # dynamic pressure
 g = 9.81
 
-wing_mass = np.zeros((len(wing_span), len(q)))
+wing_masses = np.zeros((len(wing_span), len(q)))
 wing_AR = np.zeros((len(wing_span), len(q)))
 wing_area = np.zeros((len(wing_span), len(q)))
 wing_strain = np.zeros((len(wing_span), len(q)))
@@ -53,15 +53,15 @@ wing_t = np.zeros((len(wing_span), len(q)))
 print("Calculating structure...")
 for i in range(len(wing_span)):
     for j in range(len(q)):
-        m, AR, S, strain, thickness = WingMass(
+        m, AR, S, strain, thickness = wing_mass(
             mass, wing_span[i], q[j], Cl, Cm, tc)
-        wing_mass[i][j] = m
+        wing_masses[i][j] = m
         wing_AR[i][j] = AR
         wing_area[i][j] = S
         wing_strain[i][j] = strain
         wing_t[i][j] = thickness
 
-wing_mass = wing_mass.T
+wing_masses = wing_masses.T
 wing_AR = wing_AR.T
 wing_area = wing_area.T
 wing_strain = wing_strain.T
@@ -74,9 +74,9 @@ prop_diameter = useable_span-wing_span
 # Calculate aero drag parameters
 print("Calculating drag...")
 print()
-power_drag = np.zeros(wing_mass.shape)
-power_hover = np.zeros(wing_mass.shape)
-hover_whr = np.zeros(wing_mass.shape)
+power_drag = np.zeros(wing_masses.shape)
+power_hover = np.zeros(wing_masses.shape)
+hover_whr = np.zeros(wing_masses.shape)
 r, c = power_drag.shape
 for i in range(r):
     for j in range(c):
@@ -88,7 +88,7 @@ for i in range(r):
             power_hover[i][j], wing_area[i][j], rho)
 
 # Battery parameters
-batt_mass = 0.35*mass-wing_mass
+batt_mass = 0.35*mass-wing_masses
 batt_whr = 120*batt_mass
 batt_cost = batt_whr/1.56
 batt_whr = batt_whr - hover_whr

@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from Structures import MomentOfArea, PolarMoment
-from Structures import PointLoad, UniformLoad, TriangleLoad
-from Structures import DistributedTorsion
-from Structures import TorsionStrain, BendingStrain
+from structures import moment_of_area, PolarMoment
+from structures import point_load, uniform_load, triangle_load
+from structures import distributed_torsion
+from structures import torsion_strain, bending_strain
 
 # Tony Smoragiewicz
 # August 2021
@@ -12,21 +12,21 @@ from Structures import TorsionStrain, BendingStrain
 # Reduce wall thickness until strain limit
 
 
-def WingStrain(w, F, M, diameter, thickness, L, E, G):
-    I = MomentOfArea(diameter, thickness)
+def wing_strain(w, F, M, diameter, thickness, L, E, G):
+    I = moment_of_area(diameter, thickness)
     J = PolarMoment(diameter, thickness)
 
     # Lifting by wingtips
-    moment = PointLoad(F, L, E, I)
+    moment = point_load(F, L, E, I)
     # FAA Limit
-    moment = UniformLoad(w, L, E, I)
+    moment = uniform_load(w, L, E, I)
     # Twist angle from distributed torsion
-    phi = DistributedTorsion(M, L, J, G)
-    phi_safe = DistributedTorsion(M, L, J, G)
+    phi = distributed_torsion(M, L, J, G)
+    phi_safe = distributed_torsion(M, L, J, G)
 
     # Maximum strains from bending and torsion
-    strain_torsion = TorsionStrain(M, J, diameter, G)
-    strain_bending = BendingStrain(moment, E, I, diameter)
+    strain_torsion = torsion_strain(M, J, diameter, G)
+    strain_bending = bending_strain(moment, E, I, diameter)
     strain_total = np.sqrt(strain_bending**2 + strain_torsion**2)
     max_strain_percentage = strain_total/0.015*100
     return max_strain_percentage
@@ -35,14 +35,15 @@ def WingStrain(w, F, M, diameter, thickness, L, E, G):
 # span, velocity, a/c mass, Cl, thickness ratio, air density
 
 
-def WingMass(ac_mass, b, q, Cl, Cm, tc):
+def wing_mass(ac_mass, b, q, Cl, Cm, tc):
+    """Calculate the wing mass."""
     safety_factor = 1.5     # aerospace standard
     load_factor = 4.4       # FAA guideline
     g = 9.81                # gravitational acceleration
 
-    S = ac_mass*g/(Cl*q)    # wing surface area
-    AR = b**2/S             # aspect ratio
-    c = S/b                 # mean chord length
+    span = ac_mass*g/(Cl*q)    # wing surface area
+    aspect_ratio = b**2/span             # aspect ratio
+    c = span/b                 # mean chord length
     L = b/2                 # Half wing span
 
     # Lifting loads
@@ -50,7 +51,7 @@ def WingMass(ac_mass, b, q, Cl, Cm, tc):
     F = -ac_mass*g/2        # Lifting UAV by wingtips
 
     # Torsion moment from lift
-    M = Cm*q*S/2*c*safety_factor*load_factor
+    M = Cm*q*span/2*c*safety_factor*load_factor
 
     # Carbon Fiber
     E = 228*10**9           # Modulus of Elasticity
@@ -71,7 +72,7 @@ def WingMass(ac_mass, b, q, Cl, Cm, tc):
             max_strain = float('NaN')
             break
 
-        temp = WingStrain(w, F, M, diameter, thickness, L, E, G)
+        temp = wing_strain(w, F, M, diameter, thickness, L, E, G)
 
         # initial test is beyond strain limit
         if temp > 100.0 and np.isnan(max_strain):
@@ -92,14 +93,14 @@ def WingMass(ac_mass, b, q, Cl, Cm, tc):
 
     if np.isnan(max_strain):
         mass = float('NaN')
-        AR = float('NaN')
-        S = float('NaN')
+        aspect_ratio = float('NaN')
+        span = float('NaN')
         max_strain = float('NaN')
 
     # 3D printed airfoil calculations
     volume = b*np.pi/4*(diameter**2 - (diameter-2*thickness)**2)
     density = 1750          # kg/m^3
     mass = density*volume
-    mass = mass + S*2.320   # mass from 3D printed airfoil
+    mass = mass + span*2.320   # mass from 3D printed airfoil
 
-    return mass, AR, S, max_strain, thickness
+    return mass, aspect_ratio, span, max_strain, thickness
