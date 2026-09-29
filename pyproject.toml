@@ -1,0 +1,93 @@
+[project]
+name = "uav_design"
+version = "0.1.0"
+description = "Generative design tool for the initial design phase of a tiltrotor UAV."
+authors = [{ name = "Tsmorz", email = "tonysmoragiewicz@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.12,<4.0"
+dependencies = [
+    "numpy>=2.2,<3",
+    "matplotlib>=3.10,<4",
+    "scipy>=1.16,<2",
+    "loguru>=0.7.2,<0.8",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.3,<9",
+    "pytest-cov>=6.0.0,<7",
+    "pre-commit>=4.0.0,<5",
+    "ruff==0.9.10",
+    "mypy==1.15.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["uav_design"]
+
+[tool.ruff]
+line-length = 88
+fix = true
+lint.select = [
+    "E",
+    "F",
+    "W",
+    "C90",
+    "I",
+    "N",
+    "D",
+    "UP",
+    "B",
+    "S",
+    "YTT",
+    "Q",
+    "PL",
+    "RUF",
+    "T20",
+    "F841",
+]
+lint.ignore = [
+    "D203",
+    "D213",
+    "E501",
+    "N803",
+    "N806",
+    "D415",
+    "S101",
+    "E203",
+    "E731",
+    "D107",
+    "PLR2004",
+    "PLR0912",
+    "PLR0913",
+    "PLR0915",
+    "C901",
+    "S607",
+    "S605",
+    "S603",
+    "T201",
+]
+
+[tool.lint.isort]
+known-first-party = ["uav_design"]
+combine-as-imports = true
+
+[tool.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.mypy]
+ignore_missing_imports = true
+
+[project.urls]
+homepage = "https://github.com/Tsmorz/UAV-Code"

@@ -1,0 +1,49 @@
+version: "3"
+
+tasks:
+  default:
+    desc: List available tasks
+    cmds:
+      - task --list
+
+  init:
+    desc: Install dependencies and create the virtual environment
+    cmds:
+      - uv sync
+      - uv run pre-commit install
+      - echo "Created virtual environment"
+
+  run:
+    desc: "Run the generative design tool over inputs.csv"
+    cmds:
+      - uv run python -m uav_design
+
+  test:
+    desc: Run the test suite with coverage
+    cmds:
+      - uv run pytest --cov=uav_design/ --cov-report=term-missing --no-cov-on-fail
+
+  format:
+    desc: Format, lint, and type-check the code
+    cmds:
+      - uv run ruff format
+      - uv run ruff check --fix
+      - uv run mypy uav_design/ tests/ --ignore-missing-imports
+
+  ci:
+    desc: Run the full CI suite locally (format + test)
+    cmds:
+      - task: format
+      - task: test
+
+  clean:
+    desc: Remove the virtual environment, caches, and build artifacts
+    cmds:
+      - rm -rf .venv
+      - rm -rf .mypy_cache
+      - rm -rf .pytest_cache
+      - rm -rf .ruff_cache
+      - rm -rf build/
+      - rm -rf dist/
+      - find . -name ".coverage*" -delete
+      - find . -name "__pycache__" -exec rm -r {} +
